@@ -1,7 +1,7 @@
 from gpiozero import LED
 from time import sleep
 
-testPin = 16 #change this number to match the pin
+testPin = 24 #change this number to match the pin
 
 led = LED(testPin) #initialize led object, also works with motors
 

@@ -1,3 +1,4 @@
+# _Project CC_
 # Snowboy Hotword Detection
 
 Forked from https://github.com/Kitt-AI/snowboy

@@ -15,17 +15,19 @@ from voice_engine.doa_respeaker_4mic_array import DOA
 from gpiozero import Buzzer
 from time import sleep
 
-#signal output pins
 
-RightPin = 16
-FrontPin = 26
-BackPin = 24
-LeftPin = 23
+#signal input pins
+S0 = 17
+S1 = 24
+S2 = 25
 
-Fmotor = Buzzer(FrontPin)
-Lmotor = Buzzer(LeftPin)
-Rmotor = Buzzer(RightPin)
-Bmotor = Buzzer(BackPin)
+#common input pin
+#Z = 1
+
+bit1 = Buzzer(S0)
+bit2 = Buzzer(S1)
+bit3 = Buzzer(S2)
+#sig = Buzzer(Z)
 
 def main():
     src = Source(rate=16000, channels=4)
@@ -36,29 +38,55 @@ def main():
     src.link(ch0)
     ch0.link(kws)
     src.link(doa)
-    
+    bit1.on() #binary 7, off
+    bit2.on()
+    bit3.on()
+    print("off")
 
     def on_detected(keyword):
         dir = doa.get_direction()
         print('detected {} at direction {}'.format(keyword, dir))
-
-        if(315 <= dir or dir < 45):
-            Fmotor.on()
-            print("Front")
-        elif(45 <= dir < 135):
-            Rmotor.on()
-            print("Right")
-        elif(135 <= dir < 225):
-            Bmotor.on()
-            print("Back")
-        elif(225 <= dir < 315):
-            Lmotor.on()
-            print("Left")
+        #sig.on()
+        bit1.off() #binary 0
+        bit2.off()
+        bit3.off()
+        print("0")
         time.sleep(1)
-        Fmotor.off()
-        Lmotor.off()
-        Rmotor.off()
-        Bmotor.off()
+        bit1.on() #binary 1
+        bit2.off()
+        bit3.off()
+        print("1")
+        time.sleep(1)
+        bit1.off() #binary 2
+        bit2.on()
+        bit3.off()
+        print("2")
+        time.sleep(1)
+        bit1.on() #binary 3
+        bit2.on()
+        bit3.off()
+        print("3")
+        time.sleep(1)
+        bit1.off() #binary 4
+        bit2.off()
+        bit3.on()
+        print("4")
+        time.sleep(1)
+        bit1.on() #binary 5
+        bit2.off()
+        bit3.on()
+        print("5")
+        time.sleep(1)
+        bit1.off() #binary 6
+        bit2.on()
+        bit3.on()
+        print("6")
+        time.sleep(1)
+        bit1.on() #binary 7, off
+        bit2.on()
+        bit3.on()
+        print("off")
+        time.sleep(1)
     kws.set_callback(on_detected)
 
     src.recursive_start()
@@ -76,3 +104,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
